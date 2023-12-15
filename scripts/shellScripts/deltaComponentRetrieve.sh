@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $# -eq 2 ]]
+if [ $# -eq 2 ];
 then
     SOURCE_COMMIT_ID=$1
     TARGET_COMMIT_ID=$2
