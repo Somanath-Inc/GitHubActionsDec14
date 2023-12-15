@@ -67,7 +67,7 @@ jobs:
                 name: sfdx-deployment-package
                 path: package/
             - name: Org Authorisation
-              run: sf org:login:sfdx-url --sfdx-url-file authorise -s -a TargetOrg
+              run: sfdx force:auth:jwt:grant --client-id ${{ secrets.CONSUMER_KEY }} --jwt-key-file ${{ secrets.CONSUMER_SECRET }} --username ${{ secrets.USERNAME }} --json > auth.json
             - name: Validation of Code
               if: github.event == 'pull_request'
               run: sfdx force:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} -checkonly --wait 0
