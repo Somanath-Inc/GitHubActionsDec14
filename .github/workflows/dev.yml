@@ -1,0 +1,76 @@
+name: Validation/Deployment of Dev Branch to Main
+on:
+    pull_request:
+        branches: dev
+    push:
+        branches: dev
+    workflow_dispatch:
+jobs:
+    SFDX_PACKAGE_PREPARATION:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Git Repository
+              uses: actions/checkout@v3
+              with:
+                fetch-depth: 0
+            - name: Pull Request
+              if: github.event_name == 'pull_request'
+              run: |
+                    SOURCE_BRANCH="${{ github.head_ref }}"
+                    TARGET_BRANCH="${{ github.base_ref }}"
+                    echo "SOURCE_BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV
+                    echo "TARGET_BRANCH=${{ github.base_ref }}" >> $GITHUB_ENV
+                    echo "Pull Request: from $SOURCE_BRANCH to $TARGET_BRANCH"
+            - name: Checkout Source Branch Code
+              if: github.event_name == 'pull_request'
+              uses: actions/checkout@v3
+              with:
+                repository: Somanath-Inc/GitHubActionsDec14
+                path: SourceBranchPath
+                ref: ${{env.SOURCE_BRANCH}}
+            - name: Checkout Target Branch Code
+              if: github.event_name == 'pull_request'
+              uses: actions/checkout@v3
+              with:
+                repository: Somanath-Inc/GitHubActionsDec14
+                path: TargetBranchPath
+                ref: ${{ env.TARGET_BRANCH }}
+            - name: Commit ID Extraction for PR
+              if: github.event_name == 'pull_request'
+              run: |
+                sh scripts/shellScripts/commitExtractPR.sh
+            - name: Package Preparation
+              run: |
+                    sh scripts/shellScripts/deltaComponentRetrieve.sh ${{ env.SOURCE_COMMIT_ID }} ${{ env.TARGET_COMMIT_ID }}
+              shell: bash
+            - uses: actions/upload-artifact@v2
+              with:
+                name: sfdx-deployment-package
+                path: package/*
+        outputs:
+            source_branch: ${{ env.SOURCE_BRANCH }}
+            target_branch: ${{ env.TARGET_BRANCH }}
+            source_commitId: ${{ env.SOURCE_COMMIT_ID }}
+            target_commitID: ${{ env.TARGET_COMMIT_ID }}
+
+
+    VALIDATION_DEPLOYMENT:
+        name: Org Validation/ Deployment
+        needs: SFDX_PACKAGE_PREPARATION
+        runs-on: ubuntu-latest
+        container:
+            image: salesforce/salesforcedx:latest-full
+            options: '-u 0:0'
+        steps:
+            - uses: actions/download-artifact@v2
+              with:
+                name: sfdx-deployment-package
+                path: package/
+            - name: Org Authorisation
+              run: sf org:login:sfdx-url --sfdx-url-file authorise -s -a TargetOrg
+            - name: Validation of Code
+              if: github.event == 'pull_request'
+              run: sfdx force:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} -checkonly --wait 0
+            - name: Deployment of Code
+              if: github.event_name != 'pull_request'
+              run: echo "Deployed"
