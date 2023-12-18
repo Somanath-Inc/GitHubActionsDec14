@@ -45,7 +45,7 @@ jobs:
               with:
                 branch: "${{github.ref_name}}"
                 workflow_id: dev.yml
-                github_token: ${{ secrets.GITHUB_TOKEN }}
+                github_token: ${{ secrets.GITH_TOKEN }}
               id: last_succesful_build_id
             - name: Source and Target Commit ID for branch Deployment
               if: github.event_name != 'pull_request'
