@@ -71,15 +71,8 @@ jobs:
                   pwd
                   ls
                   echo
-                  cd ..
+                  cd package
                   ls
-                  echo
-                  cd ..
-                  ls
-                  echo
-                  cd ..
-                  ls
-                  echo
             - name: Org Authorisation
               run: sf org:login:sfdx-url --sfdx-url-file authorise -s -a TargetOrg
             - name: Validation of Code
