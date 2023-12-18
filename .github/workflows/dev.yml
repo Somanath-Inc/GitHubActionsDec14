@@ -39,6 +39,43 @@ jobs:
               if: github.event_name == 'pull_request'
               run: |
                 sh scripts/shellScripts/commitExtractPR.sh
+            - name: Commit ID Extraction for branch Deployment
+              if: github.event_name != 'pull_request'
+              uses: nrwl/last-successful-commit-action@v1
+              with:
+                branch: "${{github.ref_name}}"
+                workflow_id: dev.yml
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+              id: last_succesful_build_id
+            - name: Source and Target Commit ID for branch Deployment
+              if: github.event_name != 'pull_request'
+              run: |
+                  echo "Source Commit ID: ${{github.sha}}"
+                  echo "SOURCE_COMMIT_ID=${{github.sha}}" >> GITHUB_ENV
+                  echo "Last Succesfull Commit ID: ${{steps.last_succesful_build_id.outputs.commit_hash}}"
+                  if ["${{steps.last_succesful_build_id.outputs.commit_hash}}" != "" ];
+                  then
+                    echo "TARGET_COMMIT_ID=${{steps.last_succesful_build_id.outputs.commit_hash}}" >> GITHUB_ENV
+                  else
+                    echo "TARGET_COMMIT_ID=${{github.sha}}" >> GITHUB_ENV
+                  fi
+            - name: Update List of Github Actions Variables
+              run: env
+            - name: Target Commit ID Extraction from Main Branch
+              if: |
+                  github.event_name != 'pull_request'
+                  && (env.SOURCE_COMMIT_ID == env.TARGET_COMMIT_ID)
+              uses: actions/checkout@v3
+              with:
+                repository: Somanath-Inc/GitHubActionsDec14
+                path: TargetBranchPath
+                ref: main
+            - name: Target Commit Extract for Deployment
+              if: |
+                github.event_name != 'pull_request'
+                && (env.SOURCE_COMMIT_ID == env.TARGET_COMMIT_ID)
+              run: |
+                  sh scripts/shellScripts/commitExtractMain.sh
             - name: Package Preparation
               run: |
                     sh scripts/shellScripts/deltaComponentRetrieve.sh ${{ env.SOURCE_COMMIT_ID }} ${{ env.TARGET_COMMIT_ID }}
