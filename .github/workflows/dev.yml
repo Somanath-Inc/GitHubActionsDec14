@@ -44,7 +44,7 @@ jobs:
               uses: nrwl/last-successful-commit-action@v1
               with:
                 branch: "${{github.ref_name}}"
-                workflow_id: dev.yml
+                workflow_id: 'dev.yml'
                 github_token: ${{ secrets.GITH_TOKEN }}
               id: last_succesful_build_id
             - name: Source and Target Commit ID for branch Deployment
@@ -53,7 +53,7 @@ jobs:
                   echo "Source Commit ID: ${{github.sha}}"
                   echo "SOURCE_COMMIT_ID=${{github.sha}}" >> GITHUB_ENV
                   echo "Last Succesfull Commit ID: ${{steps.last_succesful_build_id.outputs.commit_hash}}"
-                  if ["${{steps.last_succesful_build_id.outputs.commit_hash}}" != "" ];
+                  if [ "${{steps.last_succesful_build_id.outputs.commit_hash}}" != "" ];
                   then
                     echo "TARGET_COMMIT_ID=${{steps.last_succesful_build_id.outputs.commit_hash}}" >> GITHUB_ENV
                   else
