@@ -62,16 +62,16 @@ jobs:
             image: salesforce/salesforcedx:latest-full
             options: '-u 0:0'
         steps:
-            - uses: actions/download-artifact@v2
-              with:
-                name: sfdx-deployment-package
-                path: package/
             - name: Checkout Repository
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
             - name: Org Authorisation
               run: sf org:login:sfdx-url --sfdx-url-file authorise -s -a TargetOrg
+            - uses: actions/download-artifact@v2
+              with:
+                name: sfdx-deployment-package
+                path: package/
             - name: Validation of Code
               if: github.event_name == 'pull_request'
               run: sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} --checkonly --wait 0
