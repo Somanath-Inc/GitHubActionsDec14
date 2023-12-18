@@ -114,4 +114,4 @@ jobs:
               run: sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} --checkonly --wait 0
             - name: Deployment of Code
               if: github.event_name != 'pull_request'
-              run: echo "Deployed"
+              run: sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }}
