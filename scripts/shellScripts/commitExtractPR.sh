@@ -18,6 +18,7 @@ then
     exit 1
 fi
 
-TARGET_COMMIT_ID=$(git log | grep commit | head -1 | tail -1 | awk '{print $2}')
+#TARGET_COMMIT_ID=$(git log | grep commit | head -1 | tail -1 | awk '{print $2}')
+TARGET_COMMIT_ID='8cdd804335bd1ad7c9840793f13b77b050bcd410'
 echo "Target Branch Commit ID = $TARGET_COMMIT_ID"
 echo "TARGET_COMMIT_ID=$TARGET_COMMIT_ID" >> $GITHUB_ENV
