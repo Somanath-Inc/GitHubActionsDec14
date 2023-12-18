@@ -58,6 +58,7 @@ jobs:
                     echo "TARGET_COMMIT_ID=${{steps.last_succesful_build_id.outputs.commit_hash}}" >> GITHUB_ENV
                   else
                     echo "TARGET_COMMIT_ID=${{github.sha}}" >> GITHUB_ENV
+                    echo "TARGET_COMMIT_ID: ${{github.sha}}"
                   fi
             - name: Update List of Github Actions Variables
               run: env
