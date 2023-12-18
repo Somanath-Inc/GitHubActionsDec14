@@ -70,8 +70,9 @@ jobs:
               run: |
                   pwd
                   ls
+                  cd ..
             - name: Org Authorisation
-              run: sf org:login:sfdx-url --sfdx-url-file ../authorise -s -a TargetOrg
+              run: sf org:login:sfdx-url --sfdx-url-file authorise -s -a TargetOrg
             - name: Validation of Code
               if: github.event == 'pull_request'
               run: sfdx force:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} -checkonly --wait 0
