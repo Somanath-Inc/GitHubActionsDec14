@@ -71,6 +71,7 @@ jobs:
                   pwd
                   ls
                   cd ..
+                  ls
             - name: Org Authorisation
               run: sf org:login:sfdx-url --sfdx-url-file authorise -s -a TargetOrg
             - name: Validation of Code
