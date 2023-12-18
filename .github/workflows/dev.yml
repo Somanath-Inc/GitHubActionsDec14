@@ -67,7 +67,9 @@ jobs:
                 name: sfdx-deployment-package
                 path: package/
             - name: Get Current Working Directory
-              run: pwd
+              run: |
+                  pwd
+                  ls
             - name: Org Authorisation
               run: sf org:login:sfdx-url --sfdx-url-file authorise -s -a TargetOrg
             - name: Validation of Code
