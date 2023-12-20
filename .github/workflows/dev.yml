@@ -53,7 +53,7 @@ jobs:
                   echo "Source Commit ID: ${{github.sha}}"
                   echo "SOURCE_COMMIT_ID=${{github.sha}}" >> GITHUB_ENV
                   echo "Last Succesfull Commit ID: ${{steps.last_succesful_build_id.outputs.commit_hash}}"
-                  echo "TARGET_COMMIT_ID=8cdd804335bd1ad7c9840793f13b77b050bcd410" >> GITHUB_ENV
+                  echo "TARGET_COMMIT_ID=8cdd804335bd1ad7c9840793f13b77b050bcd410" >> $GITHUB_ENV
                   echo "TARGET_COMMIT_ID: ${{env.TARGET_COMMIT_ID}}"
                   #if [ "${{steps.last_succesful_build_id.outputs.commit_hash}}" != "" ];
                   #then
