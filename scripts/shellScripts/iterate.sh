@@ -6,7 +6,7 @@ then
 fi
 directory=$1
 
-function iterate() {
+function iterate () {
   local dir="$1"
 
   for file in "$dir"/*; do
