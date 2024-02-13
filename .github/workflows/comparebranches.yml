@@ -51,8 +51,19 @@ jobs:
                 path: package/
             - name: Display folder contents
               run: |
-                  pwd
                   cd package
-                  pwd
-                  ls
+                  mkdir outputfilepath
+                  file="listoffiles.txt"
+                  while read -r line; do
+                    echo -e "$line\n"
+                    filepath=$(cut -d/ -f2- <<< $line)
+                    sourcefilepath=${SourceBranchPath\}${filepath}
+                    targetfilepath=${TargetBranchPath\}${filepath}
+                    outpath=outputfilepath
+                    diff -u $sourcefilepath $targetfilepath > ${outpath}${filepath}
+                  done <$file
+            - uses: actions/upload-artifact@v2
+              with:
+                name: file-differences
+                path: outputfilepath/*
     
