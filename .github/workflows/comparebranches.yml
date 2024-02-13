@@ -32,7 +32,6 @@ jobs:
                   ref: ${{ env.TARGET_BRANCH }}
             - name: Display Branches
               run: |
-                  sh scripts/shellScripts/getBranches.sh Dev Main
                   echo "source_branch: ${{ env.SOURCE_BRANCH }}"
                   echo "target_branch: ${{ env.TARGET_BRANCH }}"
             - name: Get list of files to compare
