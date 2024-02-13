@@ -9,7 +9,6 @@ jobs:
               uses: actions/checkout@v3
               with:
                 fetch-depth: 0
-                repository: Somanath-Inc/GitHubActionsDec14
             - name: Get Branches
               run: |
                   sh scripts/shellScripts/getBranches.sh Dev Main
