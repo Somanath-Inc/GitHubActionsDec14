@@ -11,7 +11,10 @@ jobs:
                 fetch-depth: 0
             - name: Get Branches
               run: |
-                  sh scripts/shellScripts/getBranches.sh dev main
+                  SOURCE_BRANCH="dev"
+                  TARGET_BRANCH="main"
+                  echo "SOURCE_BRANCH=${ SOURCE_BRANCH }" >> $GITHUB_ENV
+                  echo "TARGET_BRANCH=${ TARGET_BRANCH }" >> $GITHUB_ENV
                   echo "source_branch: ${{ env.SOURCE_BRANCH }}"
                   echo "target_branch: ${{ env.TARGET_BRANCH }}"
             - name: Checkout Source Branch Code
