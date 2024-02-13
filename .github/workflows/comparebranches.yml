@@ -43,3 +43,15 @@ jobs:
               with:
                 name: sfdx-deployment-package
                 path: /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/listoffiles.txt
+            - name: Download Artifact
+              run: pwd
+            - uses: actions/download-artifact@v2
+              with:
+                name: sfdx-deployment-package
+                path: package/
+            - name: Display folder contents
+              run: |
+                  pwd
+                  cd package
+                  pwd
+    
