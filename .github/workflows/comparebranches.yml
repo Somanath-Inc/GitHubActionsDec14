@@ -1,5 +1,7 @@
 name: Compare Files across two Branches
 on:
+    push:
+      branches: main
     workflow_dispatch:
 jobs:
     GET_Branches_To_Compare:
@@ -34,6 +36,10 @@ jobs:
               run: |
                   echo "source_branch: ${{ env.SOURCE_BRANCH }}"
                   echo "target_branch: ${{ env.TARGET_BRANCH }}"
-            - name: Get list of files to compare
+            - name: Get list of files to compare and Download Artifact
               run: |
                     sh scripts/shellScripts/iterate.sh SourceBranchPath
+            - uses: actions/upload-artifact@v2
+              with:
+                name: sfdx-deployment-package
+                path: /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/listoffiles.txt
