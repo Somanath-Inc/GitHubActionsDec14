@@ -5,9 +5,20 @@ jobs:
     GET_Branches_To_Compare:
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+              with:
+                fetch-depth: 0
+                repository: Somanath-Inc/GitHubActionsDec14
+            - name: Get Branches
+              run: |
+                  sh scripts/shellScripts/getBranches.sh Dev Main
+                  echo "source_branch: ${{ env.SOURCE_BRANCH }}"
+                  echo "target_branch: ${{ env.TARGET_BRANCH }}"
             - name: Checkout Source Branch Code
               uses: actions/checkout@v3
               with:
+                fetch-depth: 0
                 repository: Somanath-Inc/GitHubActionsDec14
                 path: SourceBranchPath
                 ref: ${{env.SOURCE_BRANCH}}
