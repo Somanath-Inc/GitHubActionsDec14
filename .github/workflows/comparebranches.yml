@@ -57,8 +57,8 @@ jobs:
                   while read -r line; do
                     echo -e "$line\n"
                     filepath=$(cut -d/ -f2- <<< $line)
-                    sourcefilepath=${SourceBranchPath}\\${filepath}
-                    targetfilepath=${TargetBranchPath}\\${filepath}
+                    sourcefilepath=SourceBranchPath/${filepath}
+                    targetfilepath=TargetBranchPath/${filepath}
                     outpath=outputfilepath
                     diff -u $sourcefilepath $targetfilepath > ${outpath}${filepath}
                   done <$file
