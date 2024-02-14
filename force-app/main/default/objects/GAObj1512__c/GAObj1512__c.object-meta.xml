@@ -158,10 +158,11 @@
         <label>GAObj1512 Name</label>
         <trackHistory>false</trackHistory>
         <type>Text</type>
+        
     </nameField>
     <pluralLabel>GAObj1512</pluralLabel>
     <searchLayouts></searchLayouts>
+    
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
-
