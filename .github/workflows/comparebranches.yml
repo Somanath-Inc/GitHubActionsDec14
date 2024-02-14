@@ -65,6 +65,7 @@ jobs:
                     targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
                     cd outputfilepath
                     diff -u $sourcefilepath $targetfilepath > ${filepath}
+                    diff -u $sourcefilepath $targetfilepath
                     cd ..
                   done <$file
             - uses: actions/upload-artifact@v2
