@@ -63,12 +63,12 @@ jobs:
                     cat $sourcefilepath
                     cat $targetfilepath
                     diff -u $sourcefilepath $targetfilepath > ${filepath}
+                    echo "----------------------------------------------"
                     cat $sourcefilepath
+                    echo "----------------------------------------------"
                     cat $targetfilepath
-                    echo "diff"
                     diff -u $sourcefilepath $targetfilepath
                     cd ..
-                    pwd
                   done <$file
             - uses: actions/upload-artifact@v2
               with:
