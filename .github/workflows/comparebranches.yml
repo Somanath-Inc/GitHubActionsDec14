@@ -61,7 +61,12 @@ jobs:
                     targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
                     cd outputfilepath
                     filepath=$(echo $line | awk -F'[\\\\/]' '{print $(NF)}')
-                    diff -u $sourcefilepath $targetfilepath > ${filepath}
+                    if [ -f "$sourcefilepath" ] && [ -f "$targetfilepath" ]; then
+                      diff -u $sourcefilepath $targetfilepath > ${filepath} 2>&1
+                    else
+                        echo "File not found: $sourcefilepath or $targetfilepath"
+                    fi
+                    #diff -u $sourcefilepath $targetfilepath > ${filepath}
                     cd ..
                   done < "$file"
                   ls
