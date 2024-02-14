@@ -60,7 +60,6 @@ jobs:
                     sourcefilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}
                     targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
                     cd outputfilepath
-                    diff -u $sourcefilepath $targetfilepath > ${filepath}
                     echo "----------------------------------------------"
                     echo $sourcefilepath
                     cat $sourcefilepath
@@ -68,7 +67,9 @@ jobs:
                     echo $targetfilepath
                     cat $targetfilepath
                     echo "----------------------------------------------"
-                    diff -u $sourcefilepath $targetfilepath
+                    ls
+                    diff -u $sourcefilepath $targetfilepath > ${filepath}
+                    #diff -u $sourcefilepath $targetfilepath
                     cd ..
                   done <$file
             - uses: actions/upload-artifact@v2
