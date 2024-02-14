@@ -57,15 +57,14 @@ jobs:
                   while read -r line; do
                     echo -e "$line\n"
                     filepath=$(cut -d/ -f2- <<< $line)
-                    echo "pwd"
-                    pwd
-                    echo "ls"
-                    ls
                     sourcefilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}
                     targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
                     cd outputfilepath
-                    pwd
+                    cat $sourcefilepath
+                    cat $targetfilepath
                     diff -u $sourcefilepath $targetfilepath > ${filepath}
+                    cat $sourcefilepath
+                    cat $targetfilepath
                     echo "diff"
                     diff -u $sourcefilepath $targetfilepath
                     cd ..
