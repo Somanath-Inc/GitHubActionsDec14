@@ -6,7 +6,7 @@ on:
       branches: main
     workflow_dispatch:
 jobs:
-    GET_List_of_Files_To_Compare:
+    Compare_Files_Between_Two_Branches:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repo
@@ -15,8 +15,8 @@ jobs:
                 fetch-depth: 0
             - name: Get Branches
               run: |
-                  SOURCE_BRANCH="dev"
-                  TARGET_BRANCH="main"
+                  SOURCE_BRANCH="${{secrets.SOURCE_BRANCH}}"
+                  TARGET_BRANCH="${{secrets.TARGET_BRANCH}}"
                   echo "SOURCE_BRANCH=$SOURCE_BRANCH" >> $GITHUB_ENV
                   echo "TARGET_BRANCH=$TARGET_BRANCH" >> $GITHUB_ENV
                   echo "source_branch: ${{ env.SOURCE_BRANCH }}"
@@ -60,8 +60,6 @@ jobs:
                     filepath=$(cut -d/ -f2- <<< $line)
                     sourcefilepath="/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}"
                     targetfilepath="/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}"
-                    #echo "Source Path: $sourcefilepath"
-                    #echo "Target Path: $targetfilepath"
                     cd outputfilepath
                     filepath=$(echo $line | awk -F'[\\\\/]' '{print $(NF)}')
                     if [ -f "$sourcefilepath" ] && [ -f "$targetfilepath" ]; then
