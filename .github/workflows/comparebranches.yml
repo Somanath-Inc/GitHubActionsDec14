@@ -60,13 +60,12 @@ jobs:
                     sourcefilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}
                     targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
                     cd outputfilepath
-                    cat $sourcefilepath
-                    cat $targetfilepath
                     diff -u $sourcefilepath $targetfilepath > ${filepath}
                     echo "----------------------------------------------"
                     cat $sourcefilepath
                     echo "----------------------------------------------"
                     cat $targetfilepath
+                    echo "----------------------------------------------"
                     diff -u $sourcefilepath $targetfilepath
                     cd ..
                   done <$file
