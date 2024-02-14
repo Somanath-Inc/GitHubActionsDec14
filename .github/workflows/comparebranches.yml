@@ -49,10 +49,9 @@ jobs:
               with:
                 name: sfdx-deployment-package
                 path: package/
-            - name: Change to package directory
-              run: cd package
             - name: Display folder contents
               run: |
+                  cd package
                   mkdir outputfilepath
                   file="listoffiles.txt"
                   while read -r line; do
