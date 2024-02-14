@@ -1,18 +1,28 @@
 name: Compare Files across two Branches
 on:
+    push:
+      branches: main
     workflow_dispatch:
 jobs:
-    GET_Branches_To_Compare:
+    GET_List_of_Files_To_Compare:
         runs-on: ubuntu-latest
         steps:
-            - name: Display Branches
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+              with:
+                fetch-depth: 0
+            - name: Get Branches
               run: |
-                sh scripts/shellScripts/getBranches.sh dev main
-                echo "source_branch: ${{ env.SOURCE_BRANCH }}"
-                echo "target_branch: ${{ env.TARGET_BRANCH }}"
+                  SOURCE_BRANCH="dev"
+                  TARGET_BRANCH="main"
+                  echo "SOURCE_BRANCH=$SOURCE_BRANCH" >> $GITHUB_ENV
+                  echo "TARGET_BRANCH=$TARGET_BRANCH" >> $GITHUB_ENV
+                  echo "source_branch: ${{ env.SOURCE_BRANCH }}"
+                  echo "target_branch: ${{ env.TARGET_BRANCH }}"
             - name: Checkout Source Branch Code
               uses: actions/checkout@v3
               with:
+                fetch-depth: 0
                 repository: Somanath-Inc/GitHubActionsDec14
                 path: SourceBranchPath
                 ref: ${{env.SOURCE_BRANCH}}
@@ -22,6 +32,46 @@ jobs:
                   repository: Somanath-Inc/GitHubActionsDec14
                   path: TargetBranchPath
                   ref: ${{ env.TARGET_BRANCH }}
-            - name: Get list of files to compare
+            - name: Display Branches
+              run: |
+                  echo "source_branch: ${{ env.SOURCE_BRANCH }}"
+                  echo "target_branch: ${{ env.TARGET_BRANCH }}"
+            - name: Get list of files to compare and Download Artifact
               run: |
                     sh scripts/shellScripts/iterate.sh SourceBranchPath
+            - uses: actions/upload-artifact@v2
+              with:
+                name: sfdx-deployment-package
+                path: /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/listoffiles.txt
+            - name: Download Artifact
+              run: pwd
+            - uses: actions/download-artifact@v2
+              with:
+                name: sfdx-deployment-package
+                path: package/
+            - name: Display folder contents
+              run: |
+                  cd package
+                  mkdir outputfilepath
+                  file="listoffiles.txt"
+                  while read -r line; do
+                    filepath=$(cut -d/ -f2- <<< $line)
+                    #filepath=$(echo $line | awk -F'[\\\\/]' '{print $(NF)}')
+                    sourcefilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}
+                    targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
+                    cd outputfilepath
+                    filepath=$(echo $line | awk -F'[\\\\/]' '{print $(NF)}')
+                    if [ -f "$sourcefilepath" ] && [ -f "$targetfilepath" ]; then
+                      diff -u $sourcefilepath $targetfilepath > ${filepath} 2>&1
+                    else
+                        echo "File not found: $sourcefilepath or $targetfilepath"
+                    fi
+                    #diff -u $sourcefilepath $targetfilepath > ${filepath}
+                    cd ..
+                  done < "$file"
+                  ls
+            - uses: actions/upload-artifact@v2
+              with:
+                name: file-differences
+                path: outputfilepath/*
+    

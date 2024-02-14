@@ -6,13 +6,12 @@ then
 fi
 directory=$1
 
-function iterate() {
+iterate () {
   local dir="$1"
 
   for file in "$dir"/*; do
     if [ -f "$file" ]; then
       echo $file >> listoffiles.txt
-      echo "\n" >> listoffiles.txt
     fi
 
     if [ -d "$file" ]; then
