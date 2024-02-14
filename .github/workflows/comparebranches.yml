@@ -58,8 +58,8 @@ jobs:
                     echo -e "$line\n"
                     filepath=$(cut -d/ -f2- <<< $line)
                     pwd
-                    sourcefilepath=SourceBranchPath/${filepath}
-                    targetfilepath=TargetBranchPath/${filepath}
+                    sourcefilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}
+                    targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
                     outpath=outputfilepath
                     diff -u $sourcefilepath $targetfilepath > ${outpath}${filepath}
                   done <$file
