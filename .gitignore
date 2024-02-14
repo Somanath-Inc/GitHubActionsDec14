@@ -43,9 +43,3 @@ $RECYCLE.BIN/
 **/__pycache__/
 **/.venv/
 **/venv/
-**/scripts
-**/config
-.prettierrc
-jest.config.js
-package.json
-sfdx-project.json
