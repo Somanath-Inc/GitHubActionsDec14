@@ -64,9 +64,12 @@ jobs:
                     sourcefilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}
                     targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
                     cd outputfilepath
+                    pwd
                     diff -u $sourcefilepath $targetfilepath > ${filepath}
+                    echo "diff"
                     diff -u $sourcefilepath $targetfilepath
                     cd ..
+                    pwd
                   done <$file
             - uses: actions/upload-artifact@v2
               with:
