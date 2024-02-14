@@ -53,6 +53,7 @@ jobs:
               run: |
                   cd package
                   mkdir outputfilepath
+                  cd outputfilepath
                   file="listoffiles.txt"
                   while read -r line; do
                     echo -e "$line\n"
@@ -61,7 +62,7 @@ jobs:
                     sourcefilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}
                     targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
                     outpath=outputfilepath
-                    diff -u $sourcefilepath $targetfilepath > /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/${outpath}/${filepath}
+                    diff -u $sourcefilepath $targetfilepath > ${filepath}
                   done <$file
             - uses: actions/upload-artifact@v2
               with:
