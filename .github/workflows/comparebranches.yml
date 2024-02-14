@@ -51,25 +51,32 @@ jobs:
                 path: package/
             - name: Display folder contents
               run: |
-                  cd package
-                  mkdir outputfilepath
-                  file="listoffiles.txt"
-                  while read -r line; do
+                cd package
+                mkdir -p outputfilepath
+                file="listoffiles.txt"
+                log_file="script_log.txt"
+                while read -r line; do
+                    echo "Processing file: $line" >> "$log_file"
                     filepath=$(cut -d/ -f2- <<< $line)
-                    #filepath=$(echo $line | awk -F'[\\\\/]' '{print $(NF)}')
-                    sourcefilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}
-                    targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
+                    sourcefilepath="/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}"
+                    targetfilepath="/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}"
+                    echo "Source Path: $sourcefilepath" >> "$log_file"
+                    echo "Target Path: $targetfilepath" >> "$log_file"
                     cd outputfilepath
-                    filepath=$(echo $line | awk -F'[\\\\/]' '{print $(NF)}')
                     if [ -f "$sourcefilepath" ] && [ -f "$targetfilepath" ]; then
-                      diff -u $sourcefilepath $targetfilepath > ${filepath} 2>&1
+                        diff -u $sourcefilepath $targetfilepath > "${filepath}" 2>&1
                     else
-                        echo "File not found: $sourcefilepath or $targetfilepath"
+                        echo "File not found: $sourcefilepath or $targetfilepath" >> "$log_file"
                     fi
-                    #diff -u $sourcefilepath $targetfilepath > ${filepath}
                     cd ..
-                  done < "$file"
-                  ls
+                done < "$file"
+                ls >> "$log_file"
+                cat "$log_file"
+                if grep -q "File not found" "$log_file"; then
+                    echo "Error: Some files were not found."
+                    exit 1
+                fi
+                ls
             - uses: actions/upload-artifact@v2
               with:
                 name: file-differences
