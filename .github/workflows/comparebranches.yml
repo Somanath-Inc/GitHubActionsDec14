@@ -63,6 +63,7 @@ jobs:
                     echo "Source Path: $sourcefilepath" >> "$log_file"
                     echo "Target Path: $targetfilepath" >> "$log_file"
                     cd outputfilepath
+                    filepath=$(echo $line | awk -F'[\\\\/]' '{print $(NF)}')
                     if [ -f "$sourcefilepath" ] && [ -f "$targetfilepath" ]; then
                         diff -u $sourcefilepath $targetfilepath > "${filepath}" 2>&1
                     else
