@@ -62,8 +62,10 @@ jobs:
                     cd outputfilepath
                     diff -u $sourcefilepath $targetfilepath > ${filepath}
                     echo "----------------------------------------------"
+                    echo $sourcefilepath
                     cat $sourcefilepath
                     echo "----------------------------------------------"
+                    echo $targetfilepath
                     cat $targetfilepath
                     echo "----------------------------------------------"
                     diff -u $sourcefilepath $targetfilepath
