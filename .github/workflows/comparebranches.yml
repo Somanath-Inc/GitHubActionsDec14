@@ -58,6 +58,7 @@ jobs:
                     echo -e "$line\n"
                     filepath=$(cut -d/ -f2- <<< $line)
                     pwd
+                    ls
                     sourcefilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/SourceBranchPath/${filepath}
                     targetfilepath=/home/runner/work/GitHubActionsDec14/GitHubActionsDec14/TargetBranchPath/${filepath}
                     diff -u $sourcefilepath $targetfilepath > /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/outputfilepath/${filepath}
