@@ -114,7 +114,21 @@ jobs:
                 path: package/
             - name: Validation of Code
               if: github.event_name == 'pull_request'
-              run: sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} --checkonly --wait 0
+              run: |
+                  if [ -s package/package.xml ]
+                  then
+                    echo "No source-backed components present in the package."
+                    echo "So, Unable to start Validation"
+                    exit 1
+                  fi
+                  sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} --checkonly --wait 0
             - name: Deployment of Code
               if: github.event_name != 'pull_request'
-              run: sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }}
+              run: |
+                if [ -s package/package.xml ]
+                then
+                  echo "No source-backed components present in the package."
+                  echo "So, Unable to start Validation"
+                  exit 1
+                fi
+                sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }}
