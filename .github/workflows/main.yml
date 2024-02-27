@@ -115,13 +115,17 @@ jobs:
             - name: Validation of Code
               if: github.event_name == 'pull_request'
               run: |
-                  if [ -s package/package.xml ]
+                  if [ -f package/package.xml ];
                   then
-                    echo "No source-backed components present in the package."
-                    echo "So, Unable to start Validation"
-                  fi
+                    cmpTypeCount_dePkg=$(grep -c "<name>.*</name>" package/package.xml)
+                    if [ cmpTypeCount_Pkg == 0 ];
+                    then
+                      echo "No source-backed components present in the package."
+                      echo "So, Unable to start Validation"
+                    fi
                   else
-                  sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} --checkonly --wait 0
+                    sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} --checkonly --wait 0
+                  fi
             - name: Deployment of Code
               if: github.event_name != 'pull_request'
               run: |
