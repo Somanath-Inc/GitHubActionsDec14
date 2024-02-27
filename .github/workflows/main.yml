@@ -117,7 +117,8 @@ jobs:
               run: |
                   if [ -f package/package.xml ];
                   then
-                    cmpTypeCount_dePkg=$(grep -c "<name>.*</name>" package/package.xml)
+                    cmpTypeCount_Pkg=$(grep -c "<name>.*</name>" package/package.xml)
+                    echo $cmpTypeCount_Pkg
                     if [ cmpTypeCount_Pkg == 0 ];
                     then
                       echo "No source-backed components present in the package."
