@@ -119,7 +119,7 @@ jobs:
                   then
                     cmpTypeCount_Pkg=$(grep -c "<name>.*</name>" package/package.xml)
                     echo $cmpTypeCount_Pkg
-                    if [ cmpTypeCount_Pkg == 0 ];
+                    if [ $cmpTypeCount_Pkg == 0 ];
                     then
                       echo "No source-backed components present in the package."
                       echo "So, Unable to start Validation"
