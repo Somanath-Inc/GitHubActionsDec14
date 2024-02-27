@@ -125,6 +125,7 @@ jobs:
                       echo "So, Unable to start Validation"
                     else
                       sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} --checkonly --wait 0
+                    fi
                   fi
             - name: Deployment of Code
               if: github.event_name != 'pull_request'
