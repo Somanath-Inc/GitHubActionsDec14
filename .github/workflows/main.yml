@@ -119,8 +119,8 @@ jobs:
                   then
                     echo "No source-backed components present in the package."
                     echo "So, Unable to start Validation"
-                    exit 1 | true
                   fi
+                  else
                   sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }} --checkonly --wait 0
             - name: Deployment of Code
               if: github.event_name != 'pull_request'
@@ -131,4 +131,5 @@ jobs:
                   echo "So, Unable to start Deployment"
                   exit 1 | true
                 fi
+                else
                 sfdx force:source:deploy --manifest package/package.xml --targetusername ${{ secrets.USERNAME }}
