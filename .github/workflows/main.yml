@@ -115,9 +115,9 @@ jobs:
             - name: Validation of Code
               if: github.event_name == 'pull_request'
               run: |
-                  if [ -f package/package.xml ];
+                  if [ -f /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/package.xml ];
                   then
-                    cmpTypeCount_Pkg=$(grep -c "<name>.*</name>" package/package.xml)
+                    cmpTypeCount_Pkg=$(grep -c "<name>.*</name>" /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/package.xml)
                     echo $cmpTypeCount_Pkg
                     if [ $cmpTypeCount_Pkg == 0 ];
                     then
