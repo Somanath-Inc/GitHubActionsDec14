@@ -121,6 +121,7 @@ jobs:
                     cmpTypeCount_Pkg=$(grep -c "<name>.*</name>" /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/package.xml)
                     echo $cmpTypeCount_Pkg
                   fi
+                  echo $cmpTypeCount_Pkg
                   if [ $cmpTypeCount_Pkg == 0 ];
                   then
                     echo "No source-backed components present in the package."
