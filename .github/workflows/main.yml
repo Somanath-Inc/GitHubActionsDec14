@@ -112,13 +112,12 @@ jobs:
               with:
                 name: sfdx-deployment-package
                 path: package/
-            - name: Display Package Contents
-              run: cat /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/package.xml
             - name: Validation of Code
               if: github.event_name == 'pull_request'
               run: |
                   if [ -f /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/package.xml ];
                   then
+                    cat /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/package.xml
                     cmpTypeCount_Pkg=$(grep -c "<name>.*</name>" /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/package.xml)
                     echo $cmpTypeCount_Pkg
                     if [ $cmpTypeCount_Pkg == 0 ];
