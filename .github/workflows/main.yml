@@ -115,6 +115,7 @@ jobs:
             - name: Validation of Code
               if: github.event_name == 'pull_request'
               run: |
+                  cmpTypeCount_Pkg=-1
                   if [ -f /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/package.xml ];
                   then
                     cat /home/runner/work/GitHubActionsDec14/GitHubActionsDec14/package/package.xml
