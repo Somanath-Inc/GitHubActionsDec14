@@ -83,7 +83,7 @@ jobs:
               run: |
                     sh scripts/shellScripts/deltaComponentRetrieve.sh ${{ env.SOURCE_COMMIT_ID }} ${{ env.TARGET_COMMIT_ID }}
               shell: bash
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v4
               with:
                 name: sfdx-deployment-package
                 path: package/*
@@ -108,7 +108,7 @@ jobs:
                   fetch-depth: 0
             - name: Org Authorisation
               run: sf org:login:sfdx-url --sfdx-url-file authorise -s -a TargetOrg
-            - uses: actions/download-artifact@v2
+            - uses: actions/download-artifact@v4
               with:
                 name: sfdx-deployment-package
                 path: package/
