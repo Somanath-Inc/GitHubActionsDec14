@@ -3,7 +3,7 @@
     <alerts>
         <fullName>FFX_PSA_ER_Approved_Email_Alert</fullName>
         <description>PSA ER Approved Email Alert</description>
-        <protected>false</protected>
+        <protected>true</protected>
         <recipients>
             <field>pse__Resource__c</field>
             <type>contactLookup</type>

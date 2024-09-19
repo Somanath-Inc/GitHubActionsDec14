@@ -9,10 +9,10 @@ else
     exit 1
 fi
 
-npm install sfdx-cli -g
+npm install @salesforce/cli -g
 pip install xq
 pip install yq
 
-echo y | sfdx plugins:install sfdx-git-delta
+echo y | sf plugins install sfdx-git-delta;
 
-sfdx sgd:source:delta --to $SOURCE_COMMIT_ID --from $TARGET_COMMIT_ID --output . -a 55 --ignore .forceignore
+sfdx sgd:source:delta --to $SOURCE_COMMIT_ID --from $TARGET_COMMIT_ID --output . -a 60 --ignore .forceignore
